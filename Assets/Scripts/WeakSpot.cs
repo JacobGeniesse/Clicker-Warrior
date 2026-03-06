@@ -29,7 +29,7 @@ public class WeakSpot : MonoBehaviour
     void Update()
     {
         //Can a weakspot spawn?
-        if(WeakSpotTimer <= 0 && GM.UpgradeTier[3] > Random.Range(0, 101) && ActiveWeakSpot != true)
+        if(WeakSpotTimer <= 0 && GM.UpgradeTier[3] > Random.Range(0, 51) && ActiveWeakSpot != true)
         {
             //There is an active weakspot
             ActiveWeakSpot = true;
@@ -42,7 +42,11 @@ public class WeakSpot : MonoBehaviour
             //Randomly set the weakspot's position within that enemy's hitbox
             activeWeakSpot.transform.localPosition = randSpawn;
         }
-        else if(WeakSpotTimer > 0 && ActiveWeakSpot != true)
+        else if(WeakSpotTimer <= 0 && GM.UpgradeTier[3] < Random.Range(0, 101) && ActiveWeakSpot != true)
+        {
+            WeakSpotTimer = 2.5f;
+        }
+        else if (WeakSpotTimer > 0 && ActiveWeakSpot != true)
         {
             //If there isn't a weakspot lower the time before a new weakspot can potentially spawn
             WeakSpotTimer -= Time.deltaTime;

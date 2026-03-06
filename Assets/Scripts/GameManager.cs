@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour
             ResetUpgrades();
             SM.ResetCosts();
             Plushie.SetActive(false);
-            Debug.Log(UpgradeTier[0]);
+            Debug.Log("YOU DIED!");
         }
         //Take away the voucher regardless in case player used one
         UpgradeTier[9] = 0;
