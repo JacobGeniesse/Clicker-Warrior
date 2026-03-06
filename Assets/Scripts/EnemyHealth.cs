@@ -40,14 +40,14 @@ public class EnemyHealth : MonoBehaviour
         {
             CurrentHP = MaxHP;
         }
-        //If up to wave 1000, Add a random value multiplied by the current wave
-        else if(GM.wave >= 2 && GM.wave <= 1000)
+        //If up to wave 10000, Add a random value multiplied by the current wave
+        else if(GM.wave >= 2 && GM.wave <= 10000)
         {
-            CurrentHP = MaxHP + Random.Range(5, 10) * GM.wave;
+            CurrentHP = MaxHP + Random.Range(5, 10) * (GM.wave + GM.wave);
         }
         else
         {
-            //If over a 1000 waves in, kill the player with a nigh impossible amount of enemy health
+            //If over a 10000 waves in, kill the player with a nigh impossible amount of enemy health
             CurrentHP = MaxHP + Mathf.Pow(2, 31);
         }
     }
