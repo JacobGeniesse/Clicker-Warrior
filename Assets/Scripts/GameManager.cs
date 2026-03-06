@@ -5,6 +5,9 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    //Resource Class
+    public ResourceManager Resources = new ResourceManager();
+
     //Death Timer Variables
     public float TimerValue;
     public float MaxTimerValue;
@@ -30,12 +33,12 @@ public class GameManager : MonoBehaviour
     public GameObject Plushie;
 
 
-    //Currency Dictionary
-    public Dictionary<string, float> Resources = new Dictionary<string, float>()
-    {
-        {"Gold", 0},
-        {"Ruby", 0}
-    };
+    ////Currency Dictionary
+    //public Dictionary<string, float> Resources = new Dictionary<string, float>()
+    //{
+    //    {"Gold", 0},
+    //    {"Ruby", 0}
+    //};
 
     //Upgrade Array
     public int[] UpgradeTier = new int[]
@@ -68,8 +71,8 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         //Set the Gold and Ruby text to match their variable counterparts
-        GoldUI.text = "Gold: " + Resources["Gold"];
-        RubyUI.text = "Rubies: " + Resources["Ruby"];
+        GoldUI.text = "Gold: " + Resources.Currency["Gold"];
+        RubyUI.text = "Rubies: " + Resources.Currency["Ruby"];
 
         //Timer Stuff
         if (TimerValue > 0 && TimerPause != true)
@@ -112,8 +115,8 @@ public class GameManager : MonoBehaviour
         if (UpgradeTier[9] < 1)
         {
             //If no voucher take away everything from them
-            Resources["Ruby"] = 0;
-            Resources["Gold"] = 0;
+            Resources.Currency["Ruby"] = 0;
+            Resources.Currency["Gold"] = 0;
 
             ResetUpgrades();
             SM.ResetCosts();
@@ -123,7 +126,7 @@ public class GameManager : MonoBehaviour
         //Take away the voucher regardless in case player used one
         UpgradeTier[9] = 0;
         //Reward rubies based on wave
-        Resources["Ruby"] += Mathf.Floor(wave / 10) * (UpgradeTier[7] + 1);
+        Resources.Currency["Ruby"] += Mathf.Floor(wave / 10) * (UpgradeTier[7] + 1);
         //Set wave to one
         wave = 1;
         //Reset the enemy
@@ -151,7 +154,7 @@ public class GameManager : MonoBehaviour
     //Give player gold based on damage
     public void AddGold(float DamageValue)
     {
-        Resources["Gold"] += (DamageValue + (5 * UpgradeTier[2]));
+        Resources.Currency["Gold"] += (DamageValue + (5 * UpgradeTier[2]));
     }
 
 }

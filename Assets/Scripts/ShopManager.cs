@@ -52,7 +52,7 @@ public class ShopManager : MonoBehaviour
         //Check if the player has insufficent funds for anything, and disable the button if that is the case
         for(int i = 0; i < 6; i++)
         {
-            if (GM.Resources["Gold"] < UpgradeCost[i])
+            if (GM.Resources.Currency["Gold"] < UpgradeCost[i])
             {
                 UpgradeButtons[i].interactable = false;
             }
@@ -64,7 +64,7 @@ public class ShopManager : MonoBehaviour
 
         for (int i = 6; i < 11 && i > 5; i++)
         {
-            if (GM.Resources["Ruby"] < UpgradeCost[i])
+            if (GM.Resources.Currency["Ruby"] < UpgradeCost[i])
             {
                 UpgradeButtons[i].interactable = false;
             }
@@ -99,9 +99,9 @@ public class ShopManager : MonoBehaviour
     //Upgrade the sword
     public void UpgradeSword()
     {
-        if (GM.Resources["Gold"] >= UpgradeCost[0])
+        if (GM.Resources.Currency["Gold"] >= UpgradeCost[0])
         {
-            GM.Resources["Gold"] -= UpgradeCost[0];
+            GM.Resources.Currency["Gold"] -= UpgradeCost[0];
             CalculateCost(0, 0);
             GM.UpgradeTier[0] += 1;
             CheckForInvalidButton();
@@ -111,9 +111,9 @@ public class ShopManager : MonoBehaviour
     //Upgrade the magic stopwatch
     public void UpgradeStopwatch()
     {
-        if (GM.Resources["Gold"] >= UpgradeCost[1])
+        if (GM.Resources.Currency["Gold"] >= UpgradeCost[1])
         {
-            GM.Resources["Gold"] -= UpgradeCost[1];
+            GM.Resources.Currency["Gold"] -= UpgradeCost[1];
             CalculateCost(1, 1);
             GM.UpgradeTier[1] += 1;
             CheckForInvalidButton();
@@ -123,9 +123,9 @@ public class ShopManager : MonoBehaviour
     //Upgrade gold charm
     public void UpgradeGoldCharm()
     {
-        if (GM.Resources["Gold"] >= UpgradeCost[2])
+        if (GM.Resources.Currency["Gold"] >= UpgradeCost[2])
         {
-            GM.Resources["Gold"] -= UpgradeCost[2];
+            GM.Resources.Currency["Gold"] -= UpgradeCost[2];
             CalculateCost(2, 2);
             GM.UpgradeTier[2] += 1;
             CheckForInvalidButton();
@@ -135,9 +135,9 @@ public class ShopManager : MonoBehaviour
     //Upgrade training manual
     public void UpgradeManual()
     {
-        if (GM.Resources["Gold"] >= UpgradeCost[3])
+        if (GM.Resources.Currency["Gold"] >= UpgradeCost[3])
         {
-            GM.Resources["Gold"] -= UpgradeCost[3];
+            GM.Resources.Currency["Gold"] -= UpgradeCost[3];
             CalculateCost(3, 3);
             GM.UpgradeTier[3] += 1;
             CheckForInvalidButton();
@@ -147,9 +147,9 @@ public class ShopManager : MonoBehaviour
     //Upgrade assassin's lens
     public void UpgradeLens()
     {
-        if (GM.Resources["Gold"] >= UpgradeCost[4])
+        if (GM.Resources.Currency["Gold"] >= UpgradeCost[4])
         {
-            GM.Resources["Gold"] -= UpgradeCost[4];
+            GM.Resources.Currency["Gold"] -= UpgradeCost[4];
             CalculateCost(4, 4);
             GM.UpgradeTier[4] += 1;
             CheckForInvalidButton();
@@ -159,9 +159,9 @@ public class ShopManager : MonoBehaviour
     //Upgrade Crude golem
     public void UpgradeGolem()
     {
-        if (GM.Resources["Gold"] >= UpgradeCost[5])
+        if (GM.Resources.Currency["Gold"] >= UpgradeCost[5])
         {
-            GM.Resources["Gold"] -= UpgradeCost[5];
+            GM.Resources.Currency["Gold"] -= UpgradeCost[5];
             CalculateCost(5, 5);
             GM.UpgradeTier[5] += 1;
             CheckForInvalidButton();
@@ -171,10 +171,10 @@ public class ShopManager : MonoBehaviour
     //Buy gold for rubies
     public void BuyGold()
     {
-        if (GM.Resources["Ruby"] >= UpgradeCost[6])
+        if (GM.Resources.Currency["Ruby"] >= UpgradeCost[6])
         {
-            GM.Resources["Ruby"] -= UpgradeCost[6];
-            GM.Resources["Gold"] += 100;
+            GM.Resources.Currency["Ruby"] -= UpgradeCost[6];
+            GM.Resources.Currency["Gold"] += 100;
             CheckForInvalidButton();
         }
     }
@@ -182,9 +182,9 @@ public class ShopManager : MonoBehaviour
     //Upgrade ruby amulet
     public void UpgradeAmulet()
     {
-        if (GM.Resources["Ruby"] >= UpgradeCost[7])
+        if (GM.Resources.Currency["Ruby"] >= UpgradeCost[7])
         {
-            GM.Resources["Ruby"] -= UpgradeCost[7];
+            GM.Resources.Currency["Ruby"] -= UpgradeCost[7];
             CalculateCost(7, 7);
             GM.UpgradeTier[7] += 1;
             CheckForInvalidButton();
@@ -194,9 +194,9 @@ public class ShopManager : MonoBehaviour
     //Upgrade Robo-Hero
     public void UpgradeRobot()
     {
-        if (GM.Resources["Ruby"] >= UpgradeCost[8])
+        if (GM.Resources.Currency["Ruby"] >= UpgradeCost[8])
         {
-            GM.Resources["Ruby"] -= UpgradeCost[8];
+            GM.Resources.Currency["Ruby"] -= UpgradeCost[8];
             CalculateCost(8, 8);
             GM.UpgradeTier[8] += 1;
             CheckForInvalidButton();
@@ -206,9 +206,9 @@ public class ShopManager : MonoBehaviour
     //Buy NG+ Voucher
     public void BuyVoucher()
     {
-        if (GM.Resources["Ruby"] >= UpgradeCost[9])
+        if (GM.Resources.Currency["Ruby"] >= UpgradeCost[9])
         {
-            GM.Resources["Ruby"] -= UpgradeCost[9];
+            GM.Resources.Currency["Ruby"] -= UpgradeCost[9];
             CalculateCost(9, 9);
             GM.UpgradeTier[9] += 1;
             CheckForInvalidButton();
@@ -218,9 +218,9 @@ public class ShopManager : MonoBehaviour
     //Buy the plushie
     public void BuyPlushie()
     {
-        if (GM.Resources["Ruby"] >= UpgradeCost[10])
+        if (GM.Resources.Currency["Ruby"] >= UpgradeCost[10])
         {
-            GM.Resources["Ruby"] -= UpgradeCost[10];
+            GM.Resources.Currency["Ruby"] -= UpgradeCost[10];
             GM.AwakenPlushie();
             GM.UpgradeTier[10] += 1;
             CheckForInvalidButton();
@@ -230,7 +230,7 @@ public class ShopManager : MonoBehaviour
     //Calculate the new cost to buy post-upgrade
     private void CalculateCost(int UpgradeType, int UpgradeTier)
     {
-        UpgradeCost[UpgradeType] = (GM.UpgradeTier[UpgradeTier] + 2) * UpgradeCost[UpgradeType];
+        UpgradeCost[UpgradeType] = Mathf.Ceil((GM.UpgradeTier[UpgradeTier] + 2) * UpgradeCost[UpgradeType] - UpgradeCost[UpgradeType]/2);
         if(UpgradeType < 6)
         {
             CostDisplay[UpgradeType].text = "Cost: " + UpgradeCost[UpgradeType] + " Gold";
