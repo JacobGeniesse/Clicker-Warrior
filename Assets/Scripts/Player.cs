@@ -3,81 +3,77 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    ResourceManager Currency = new ResourceManager();
-
-    UpgradeManager Upgrades = new UpgradeManager();
-
-    public float TimerValue;
-    public float MaxTimerValue;
-    private bool TimerPause = false;
-
+    //References to other scripts
+    private GameManager GM;
     private EnemyHealth enemy;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    //passive damage timers
+    private float GolemTimer = 1;
+    private float RobotTimer = 1;
+
     void Start()
     {
-        enemy = GetComponent<EnemyHealth>();
-        TimerValue = MaxTimerValue;
+        //Define Game manager, and enemy
+        GM = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        enemy = GameObject.Find("Enemy").GetComponent<EnemyHealth>();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            EnemyDamage();
-        }
-
-        //Timer Stuff
-        if(TimerValue > 0 && TimerPause != true)
-        {
-            TimerValue -= Time.deltaTime;
-        }
-        else if(TimerPause != false)
-        {
-            TimerPause = true;
-            TimeUp();
-        }
-
         //Crude Golem Passive Damage
-        if (Upgrades.Upgrades["Crude Golem"] > 0)
+        if (GM.UpgradeTier[5] > 0 && GM.TimerPause != true && GolemTimer > 0)
         {
-            float damageValue = 5 * Upgrades.Upgrades["Crude Golem"] * Time.deltaTime;
-            enemy.CurrentHP -= damageValue;
-            Currency.Resources["Gold"] = AddGold(Currency.Resources["Gold"], damageValue);
+            GolemTimer -= Time.deltaTime;
+        }
+        else if (GM.UpgradeTier[5] > 0 && GM.TimerPause != true && GolemTimer <= 0)
+        { 
+            GolemAttack();
+            GolemTimer = 1;
         }
 
-        //Mechanization MassiveDamage
-        if (Upgrades.Upgrades["Robo-Hero"] > 0)
+        //Robo-Hero Passive Damage
+        if (GM.UpgradeTier[8] > 0 && GM.TimerPause != true && RobotTimer > 0)
         {
-            float damageValue = ((1 + (2 * Upgrades.Upgrades["Sword Reforge"])) + Upgrades.Upgrades["Robo-Hero"]) * Time.deltaTime;
-            enemy.CurrentHP -= damageValue;
-            Currency.Resources["Gold"] = AddGold(Currency.Resources["Gold"], damageValue);
+            RobotTimer -= Time.deltaTime;
+        }
+        else if (GM.UpgradeTier[8] > 0 && GM.TimerPause != true && RobotTimer <= 0)
+        {
+            RobotAttack();
+            RobotTimer = 0.5f;
         }
     }
 
-    private float AddGold(float BaseValue, float DamageValue)
+    //Calculate player damage
+    public void EnemyDamage()
     {
-        return BaseValue + (DamageValue + (5 * Upgrades.Upgrades["Gold Charm"]));
-    }
-
-
-    //Add Time to the Timer
-    public void AddTime()
-    {
-        TimerValue = MaxTimerValue + Upgrades.Upgrades["Secret Stopwatch"];
-    }
-
-    //Death at end of timer
-    private void TimeUp()
-    {
-
-    }
-
-
-    private void EnemyDamage()
-    {
-        float damageValue = 1 + (2 * Upgrades.Upgrades["Sword Reforge"]);
+        //Player damage dealt
+        float damageValue = 1 + (GM.UpgradeTier[0]);
+        //Enemy Health Lost
         enemy.CurrentHP -= damageValue;
-        Currency.Resources["Gold"] = AddGold(Currency.Resources["Gold"], damageValue);
+        //Gold recieved
+        GM.AddGold(damageValue);
+    }
+
+    //Calculate golem damage
+    private void GolemAttack()
+    {
+        //Golem Damage dealt
+        float damageValue = 5 * GM.UpgradeTier[5];
+        //Enemy Health lost
+        enemy.CurrentHP -= damageValue;
+        //Gold recieved
+        GM.AddGold(damageValue);
+    }
+
+    //Calculate Robo-Hero Damage
+    private void RobotAttack()
+    {
+        //Robot Damage Dealt
+        float damageValue = (1 + GM.UpgradeTier[0]) * GM.UpgradeTier[8];
+        //Enemy Health Lost
+        enemy.CurrentHP -= damageValue;
+        //Gold Recieved
+        GM.AddGold(damageValue);
     }
 }

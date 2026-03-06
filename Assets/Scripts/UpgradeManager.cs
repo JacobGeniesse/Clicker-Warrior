@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class UpgradeManager
 {
-    public Dictionary<string, float> Upgrades = new Dictionary<string, float>()
+    public Dictionary<string, int> Upgrades = new Dictionary<string, int>()
     {
         //Guide to Keys: { Upgrade Name, Upgrade Tier }
 
