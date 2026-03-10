@@ -8,8 +8,8 @@ public class Player : MonoBehaviour
     private EnemyHealth enemy;
 
     //passive damage timers
-    private float GolemTimer = 1;
-    private float RobotTimer = 1;
+    private float GolemTimer = 0.5f;
+    private float RobotTimer = 0.1f;
 
     void Start()
     {
@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
         else if (GM.UpgradeTier[5] > 0 && GM.TimerPause != true && GolemTimer <= 0)
         { 
             GolemAttack();
-            GolemTimer = 1;
+            GolemTimer = 0.5f;
         }
 
         //Robo-Hero Passive Damage
@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
         else if (GM.UpgradeTier[8] > 0 && GM.TimerPause != true && RobotTimer <= 0)
         {
             RobotAttack();
-            RobotTimer = 0.5f;
+            RobotTimer = 0.1f;
         }
     }
 
@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
     private void GolemAttack()
     {
         //Golem Damage dealt
-        float damageValue = 5 * GM.UpgradeTier[5];
+        float damageValue = 3 * GM.UpgradeTier[5];
         //Enemy Health lost
         enemy.CurrentHP -= damageValue;
         //Gold recieved

@@ -41,9 +41,9 @@ public class EnemyHealth : MonoBehaviour
             CurrentHP = MaxHP;
         }
         //If up to wave 10000, Add a random value multiplied by the current wave
-        else if(GM.wave >= 2 && GM.wave <= 10000)
+        else if(GM.wave >= 2 && GM.wave <= 1000)
         {
-            CurrentHP = MaxHP + Random.Range(5, 10) * (GM.wave + GM.wave);
+            CurrentHP = MaxHP + 5 * (GM.wave + GM.wave);
         }
         else
         {
@@ -55,7 +55,7 @@ public class EnemyHealth : MonoBehaviour
     //Advance to the next wave, and set the enemy HP
     private void Die()
     {
-        GM.wave += 1;
+        GM.IncrementWave();
         NewHP(GM.wave);
         GM.AddTime();
     }
@@ -64,5 +64,6 @@ public class EnemyHealth : MonoBehaviour
     public void ResetHP()
     {
         CurrentHP = MaxHP;
+        HitPointsUI.text = "HP: " + CurrentHP;
     }
 }

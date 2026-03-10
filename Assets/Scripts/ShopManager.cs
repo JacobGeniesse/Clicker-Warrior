@@ -18,9 +18,9 @@ public class ShopManager : MonoBehaviour
         30, // 5 = Crude Golem
 
         1, // 6 = Gold
-        10, // 7 = Ruby Amulet
-        25, // 8 = Robo-Hero
-        150, // 9 = Newgame+ Voucher
+        3, // 7 = Ruby Amulet
+        5, // 8 = Robo-Hero
+        25, // 9 = Newgame+ Voucher
         9999, // 10 = Commemorative Plushy
     };
 
@@ -174,7 +174,7 @@ public class ShopManager : MonoBehaviour
         if (GM.Resources.Currency["Ruby"] >= UpgradeCost[6])
         {
             GM.Resources.Currency["Ruby"] -= UpgradeCost[6];
-            GM.Resources.Currency["Gold"] += 100;
+            GM.Resources.Currency["Gold"] += 500;
             CheckForInvalidButton();
         }
     }
@@ -252,9 +252,9 @@ public class ShopManager : MonoBehaviour
         UpgradeCost[4] = 25;
         UpgradeCost[5] = 30;
         UpgradeCost[6] = 1;
-        UpgradeCost[7] = 10;
-        UpgradeCost[8] = 25;
-        UpgradeCost[9] = 150;
+        UpgradeCost[7] = 3;
+        UpgradeCost[8] = 5;
+        UpgradeCost[9] = 25;
         UpgradeCost[10] = 9999;
     }
 }

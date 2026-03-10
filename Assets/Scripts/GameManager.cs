@@ -29,16 +29,11 @@ public class GameManager : MonoBehaviour
     //referemce to the timerUI
     private TMP_Text TimerText;
 
+    //ref to wave text
+    private TMP_Text WaveText;
+
     //Reference to Plushie Game Object
     public GameObject Plushie;
-
-
-    ////Currency Dictionary
-    //public Dictionary<string, float> Resources = new Dictionary<string, float>()
-    //{
-    //    {"Gold", 0},
-    //    {"Ruby", 0}
-    //};
 
     //Upgrade Array
     public int[] UpgradeTier = new int[]
@@ -65,6 +60,8 @@ public class GameManager : MonoBehaviour
         GoldUI = GameObject.Find("Gold Amount").GetComponent<TMP_Text>();
         RubyUI = GameObject.Find("Ruby Amount").GetComponent<TMP_Text>();
         TimerText = GameObject.Find("TimerText").GetComponent<TMP_Text>();
+        WaveText = GameObject.Find("WaveText").GetComponent<TMP_Text>();
+        WaveText.text = "Wave: " + wave;
         TimerValue = MaxTimerValue;
     }
 
@@ -93,7 +90,10 @@ public class GameManager : MonoBehaviour
     //Add Time to the Timer
     public void AddTime()
     {
-        TimerValue += UpgradeTier[1];
+        if (wave % 10 == 0)
+        {
+            TimerValue += 5 * (UpgradeTier[2] + 1);
+        }
     }
 
     //Pause death timer
@@ -111,24 +111,29 @@ public class GameManager : MonoBehaviour
     //Death at end of timer
     private void TimeUp()
     {
+        Debug.Log(UpgradeTier[9]);
         //Check if the player has a voucher
         if (UpgradeTier[9] < 1)
         {
             //If no voucher take away everything from them
             Resources.Currency["Ruby"] = 0;
             Resources.Currency["Gold"] = 0;
-
-            ResetUpgrades();
-            SM.ResetCosts();
-            Plushie.SetActive(false);
-            Debug.Log("YOU DIED!");
         }
         //Take away the voucher regardless in case player used one
         UpgradeTier[9] = 0;
         //Reward rubies based on wave
         Resources.Currency["Ruby"] += Mathf.Floor(wave / 10) * (UpgradeTier[7] + 1);
+        //Take away upgrades if no voucher (Waiting for ruby calc)
+        if (UpgradeTier[9] < 1)
+        {
+            ResetUpgrades();
+            SM.ResetCosts();
+            Plushie.SetActive(false);
+            Debug.Log("YOU DIED!");
+        }
         //Set wave to one
         wave = 1;
+        WaveText.text = "Wave: " + wave;
         //Reset the enemy
         enemy.ResetHP();
         TimerValue = MaxTimerValue;
@@ -154,7 +159,20 @@ public class GameManager : MonoBehaviour
     //Give player gold based on damage
     public void AddGold(float DamageValue)
     {
-        Resources.Currency["Gold"] += (DamageValue + (5 * UpgradeTier[2]));
+        if (UpgradeTier[2] > 0)
+        {
+            Resources.Currency["Gold"] += Mathf.Ceil((DamageValue * (1.5f * UpgradeTier[2])));
+        }
+        else
+        {
+            Resources.Currency["Gold"] += DamageValue;
+        }
+    }
+
+    public void IncrementWave()
+    {
+        wave++;
+        WaveText.text = "Wave: " + wave;
     }
 
 }
