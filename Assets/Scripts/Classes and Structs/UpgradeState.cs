@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public struct UpgradeState
+public class UpgradeState
 {
     public string UpgradeName;
 
