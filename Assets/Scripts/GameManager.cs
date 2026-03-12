@@ -107,7 +107,14 @@ public class GameManager : MonoBehaviour
         //Take away the voucher regardless in case player used one
         UM.Upgrades[9].UpgradeTier = 0;
         //Reward rubies based on wave
-        Resources.Currency["Ruby"] += Mathf.Floor(wave / 10) * (UM.Upgrades[7].UpgradeTier + 1);
+        if(UM.Upgrades[7].UpgradeTier > 0)
+        {
+            Resources.Currency["Ruby"] += Mathf.Ceil(Mathf.Floor(wave / 10) * (1.5f * UM.Upgrades[7].UpgradeTier));
+        }
+        else
+        {
+            Resources.Currency["Ruby"] += Mathf.Floor(wave / 10);
+        }
         Debug.Log("YOU DIED!");
         //Set wave to one
         wave = 1;
