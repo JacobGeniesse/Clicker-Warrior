@@ -1,26 +1,30 @@
 using UnityEngine;
 
+[System.Serializable]
 public struct UpgradeState
 {
     public string UpgradeName;
 
     public int UpgradeTier;
 
-    public float UpgradeCost;
+    public float UpgradeCostCurrent;
+    public float UpgradeCostOriginal;
+
     public enum PurchaseState
     {
-        Locked = 0,
-        Available = 0,
-        Purchased = 0
+        Locked,
+        Available,
+        Purchased
     };
 
-    public PurchaseState availabilitiy;
+    public PurchaseState Availabilitiy;
 
     public UpgradeState(string Name, int Tier, float Cost)
     {
         UpgradeName = Name;
         UpgradeTier = Tier;
-        UpgradeCost = Cost;
-        availabilitiy = PurchaseState.Available;
+        UpgradeCostOriginal = Cost;
+        UpgradeCostCurrent = UpgradeCostOriginal;
+        Availabilitiy = PurchaseState.Available;
     }
 }
