@@ -29,7 +29,7 @@ public class WeakSpot : MonoBehaviour
     void Update()
     {
         //Can a weakspot spawn?
-        if(WeakSpotTimer <= 0 && GM.UpgradeTier[3] > Random.Range(0, 51) && ActiveWeakSpot != true)
+        if(WeakSpotTimer <= 0 && GM.UM.UpgradeTier[3] > Random.Range(0, 51) && ActiveWeakSpot != true)
         {
             //There is an active weakspot
             ActiveWeakSpot = true;
@@ -42,7 +42,7 @@ public class WeakSpot : MonoBehaviour
             //Randomly set the weakspot's position within that enemy's hitbox
             activeWeakSpot.transform.localPosition = randSpawn;
         }
-        else if(WeakSpotTimer <= 0 && GM.UpgradeTier[3] < Random.Range(0, 101) && ActiveWeakSpot != true)
+        else if(WeakSpotTimer <= 0 && GM.UM.UpgradeTier[3] < Random.Range(0, 101) && ActiveWeakSpot != true)
         {
             WeakSpotTimer = 2.5f;
         }
@@ -60,7 +60,7 @@ public class WeakSpot : MonoBehaviour
         //Set time to max
         WeakSpotTimer = 2.5f;
         //Run damage numbers
-        float damageValue = (GM.UpgradeTier[0] + 1) * (10 * (GM.UpgradeTier[4] + 1));
+        float damageValue = (GM.UM.UpgradeTier[0] + 1) * (10 * (GM.UM.UpgradeTier[4] + 1));
         enemy.CurrentHP -= damageValue;
         //Award gold
         GM.AddGold(damageValue);

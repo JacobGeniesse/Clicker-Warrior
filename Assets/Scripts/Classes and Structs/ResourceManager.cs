@@ -10,13 +10,3 @@ public class ResourceManager
         {"Ruby", 0}
     };
 }
-
-public class Gold
-{
-    public float gold = 0;
-}
-
-public class Ruby
-{
-    public float ruby = 0;
-}

@@ -1906,6 +1906,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a575d4070a19874f917b583dbc3ac66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+  CTProtectOn: 1
 --- !u!1 &529273261
 GameObject:
   m_ObjectHideFlags: 0
@@ -7457,7 +7458,6 @@ MonoBehaviour:
   wave: 1
   SM: {fileID: 424825053}
   Plushie: {fileID: 1153063986}
-  UpgradeTier: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 --- !u!4 &2051368245
 Transform:
   m_ObjectHideFlags: 0

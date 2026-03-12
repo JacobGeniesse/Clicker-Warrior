@@ -35,23 +35,7 @@ public class GameManager : MonoBehaviour
     //Reference to Plushie Game Object
     public GameObject Plushie;
 
-    //Upgrade Array
-    public int[] UpgradeTier = new int[]
-    {
-        0, //Sword Reforge
-        0, //"Magic Stopwatch"
-        0, //"Gold Charm"
-        0, //"Training Manual"
-        0, //"Assassin's Lens"
-        0, //"Crude Golem"
-
-        //Ruby Upgrades
-        0, //"Gold"
-        0, //"Ruby Amulet"
-        0, //RoboHero
-        0, //"New Game+ Voucher"
-        0, //Plushie
-    };
+    public UpgradeManager UM = new UpgradeManager();
 
     void Start()
     {   
@@ -92,7 +76,7 @@ public class GameManager : MonoBehaviour
     {
         if (wave % 10 == 0)
         {
-            TimerValue += 5 * (UpgradeTier[2] + 1);
+            TimerValue += 5 * (UM.UpgradeTier[2] + 1);
         }
     }
 
@@ -111,20 +95,20 @@ public class GameManager : MonoBehaviour
     //Death at end of timer
     private void TimeUp()
     {
-        Debug.Log(UpgradeTier[9]);
+        Debug.Log(UM.UpgradeTier[9]);
         //Check if the player has a voucher
-        if (UpgradeTier[9] < 1)
+        if (UM.UpgradeTier[9] < 1)
         {
             //If no voucher take away everything from them
             Resources.Currency["Ruby"] = 0;
             Resources.Currency["Gold"] = 0;
         }
         //Take away the voucher regardless in case player used one
-        UpgradeTier[9] = 0;
+        UM.UpgradeTier[9] = 0;
         //Reward rubies based on wave
-        Resources.Currency["Ruby"] += Mathf.Floor(wave / 10) * (UpgradeTier[7] + 1);
+        Resources.Currency["Ruby"] += Mathf.Floor(wave / 10) * (UM.UpgradeTier[7] + 1);
         //Take away upgrades if no voucher (Waiting for ruby calc)
-        if (UpgradeTier[9] < 1)
+        if (UM.UpgradeTier[9] < 1)
         {
             ResetUpgrades();
             SM.ResetCosts();
@@ -150,18 +134,18 @@ public class GameManager : MonoBehaviour
     //Set the upgradetier values back to 0
     private void ResetUpgrades()
     {
-        for(int i = 0; i < UpgradeTier.Length; i++)
+        for(int i = 0; i < UM.UpgradeTier.Length; i++)
         {
-            UpgradeTier[i] = 0;
+            UM.UpgradeTier[i] = 0;
         }
     }
 
     //Give player gold based on damage
     public void AddGold(float DamageValue)
     {
-        if (UpgradeTier[2] > 0)
+        if (UM.UpgradeTier[2] > 0)
         {
-            Resources.Currency["Gold"] += Mathf.Ceil((DamageValue * (1.5f * UpgradeTier[2])));
+            Resources.Currency["Gold"] += Mathf.Ceil((DamageValue * (1.5f * UM.UpgradeTier[2])));
         }
         else
         {
