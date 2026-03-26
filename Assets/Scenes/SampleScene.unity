@@ -1906,7 +1906,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a575d4070a19874f917b583dbc3ac66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
-  CTProtectOn: 1
+  CTProtectOn: 0
 --- !u!1 &529273261
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,6 +15,8 @@ public class ShopManager : MonoBehaviour
     // Buttons for buying things, to be disabled if insufficent funds or too many purchased
     public Button[] UpgradeButtons;
 
+    private bool successfulTransaction;
+
     void OnEnable()
     {   //Define gamemanager
         GM = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -227,5 +229,9 @@ public class ShopManager : MonoBehaviour
         {
             CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent + " Rubies";
         }
+    }
+
+    private void Purchase(ref float Resource, int UpgradeType)
+    {
     }
 }

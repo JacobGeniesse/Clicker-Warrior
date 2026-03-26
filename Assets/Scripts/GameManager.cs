@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
 {
     //Resource Class
     public ResourceManager Resources = new ResourceManager();
+    private GoldGenerator GoldGen;
+    private RubyGenerator RubyGen;
 
     //Death Timer Variables
     public float TimerValue;
@@ -41,6 +43,8 @@ public class GameManager : MonoBehaviour
     {   
         //Define enemy, Gold text, Ruby text, and set the time value to its maximum
         enemy = GameObject.Find("Enemy").GetComponent<EnemyHealth>();
+        GoldGen = this.GetComponent<GoldGenerator>();
+        RubyGen = this.GetComponent<RubyGenerator>();
         GoldUI = GameObject.Find("Gold Amount").GetComponent<TMP_Text>();
         RubyUI = GameObject.Find("Ruby Amount").GetComponent<TMP_Text>();
         TimerText = GameObject.Find("TimerText").GetComponent<TMP_Text>();
@@ -107,14 +111,8 @@ public class GameManager : MonoBehaviour
         //Take away the voucher regardless in case player used one
         UM.Upgrades[9].UpgradeTier = 0;
         //Reward rubies based on wave
-        if(UM.Upgrades[7].UpgradeTier > 0)
-        {
-            Resources.Currency["Ruby"] += Mathf.Ceil(Mathf.Floor(wave / 10) * (1.5f * UM.Upgrades[7].UpgradeTier));
-        }
-        else
-        {
-            Resources.Currency["Ruby"] += Mathf.Floor(wave / 10);
-        }
+        float rubyAward = Mathf.Floor(wave / 10);
+        RubyGen.Produce(ref rubyAward, UM.Upgrades[7], Resources.Currency["Ruby"]);
         Debug.Log("YOU DIED!");
         //Set wave to one
         wave = 1;
@@ -147,7 +145,7 @@ public class GameManager : MonoBehaviour
     {
         if (UM.Upgrades[5].UpgradeTier > 0)
         {
-            Resources.Currency["Gold"] += Mathf.Ceil((DamageValue * (1.5f * UM.Upgrades[5].UpgradeTier)));
+            GoldGen.Produce(ref DamageValue, UM.Upgrades[5], Resources.Currency["Gold"]);
         }
         else
         {
@@ -160,5 +158,4 @@ public class GameManager : MonoBehaviour
         wave++;
         WaveText.text = "Wave: " + wave;
     }
-
 }
