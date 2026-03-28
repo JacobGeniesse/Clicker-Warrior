@@ -4,9 +4,10 @@ using UnityEngine;
 public class ResourceManager
 {
 
-    public Dictionary<string, float> Currency = new Dictionary<string, float>()
+    public Dictionary<string, float[]> Currency = new Dictionary<string, float[]>()
     {
-        {"Gold", 0},
-        {"Ruby", 0}
+        {"Gold", new float[4] {0, 0, 0, 0}},
+
+        {"Ruby", new float[4] {0, 0, 0, 0}}
     };
 }

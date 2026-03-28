@@ -63,7 +63,7 @@ public class WeakSpot : MonoBehaviour
         WeakSpotTimer = 2.5f;
         //Run damage numbers
         float damageValue = (UM.Upgrades[0].UpgradeTier + 1) * (10 * (UM.Upgrades[3].UpgradeTier + 1));
-        enemy.CurrentHP -= damageValue;
+        enemy.TakeDamage(damageValue);
         //Award gold
         GM.AddGold(damageValue);
         //No active weakspot

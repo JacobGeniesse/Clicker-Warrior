@@ -2,13 +2,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using NumberControlExtension;
 
 public class GameManager : MonoBehaviour
 {
     //Resource Class
     public ResourceManager Resources = new ResourceManager();
-    private GoldGenerator GoldGen;
-    private RubyGenerator RubyGen;
+    public GoldGenerator GoldGen;
+    public RubyGenerator RubyGen;
 
     //Death Timer Variables
     public float TimerValue;
@@ -40,8 +41,8 @@ public class GameManager : MonoBehaviour
     public UpgradeManager UM = new UpgradeManager();
 
     void Start()
-    {   
-        //Define enemy, Gold text, Ruby text, and set the time value to its maximum
+    {
+        //Define enemy, GoldGen, RubyGen, Gold text, Ruby text, and set the time value to its maximum
         enemy = GameObject.Find("Enemy").GetComponent<EnemyHealth>();
         GoldGen = this.GetComponent<GoldGenerator>();
         RubyGen = this.GetComponent<RubyGenerator>();
@@ -56,8 +57,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         //Set the Gold and Ruby text to match their variable counterparts
-        GoldUI.text = "Gold: " + Resources.Currency["Gold"];
-        RubyUI.text = "Rubies: " + Resources.Currency["Ruby"];
+        UpdateCurrencyText();
 
         //Timer Stuff
         if (TimerValue > 0 && TimerPause != true)
@@ -71,7 +71,6 @@ public class GameManager : MonoBehaviour
             //Kill the player if time is up
             TimeUp();
         }
-
     }
 
 
@@ -80,7 +79,7 @@ public class GameManager : MonoBehaviour
     {
         if (wave % 10 == 0)
         {
-            TimerValue += 5 * (UM.Upgrades[2].UpgradeTier + 1);
+            TimerValue += 10 * (UM.Upgrades[2].UpgradeTier + 1);
         }
     }
 
@@ -103,8 +102,7 @@ public class GameManager : MonoBehaviour
         if (UM.Upgrades[9].UpgradeTier < 1)
         {
             //If no voucher take away everything from them
-            Resources.Currency["Ruby"] = 0;
-            Resources.Currency["Gold"] = 0;
+            ResetMoney();
             ResetUpgrades();
             PlushieStatus(false);
         }
@@ -112,7 +110,7 @@ public class GameManager : MonoBehaviour
         UM.Upgrades[9].UpgradeTier = 0;
         //Reward rubies based on wave
         float rubyAward = Mathf.Floor(wave / 10);
-        RubyGen.Produce(ref rubyAward, UM.Upgrades[7], Resources.Currency["Ruby"]);
+        RubyGen.Produce(ref rubyAward, UM.Upgrades[7], ref Resources);
         Debug.Log("YOU DIED!");
         //Set wave to one
         wave = 1;
@@ -127,13 +125,23 @@ public class GameManager : MonoBehaviour
     //Give the plushie to the player
     public void PlushieStatus(bool Status)
     {
-        Plushie.SetActive(Status);
+        Plushie.SetActive(Status); //Set the plushie game object's status to true or false
+    }
+
+    private void ResetMoney()
+    {
+        //Reset Gold and Ruby Money Blocks
+        for(int i = 0; i < Resources.Currency["Gold"].Length; i++)
+        {
+            Resources.Currency["Gold"][i] = 0;
+            Resources.Currency["Ruby"][i] = 0;
+        }
     }
 
     //Set the upgradetier values back to 0
     private void ResetUpgrades()
     {
-        for(int i = 0; i < UM.Upgrades.Length; i++)
+        for (int i = 0; i < UM.Upgrades.Length; i++)
         {
             UM.Upgrades[i].UpgradeTier = 0;
             UM.Upgrades[i].UpgradeCostCurrent = UM.Upgrades[i].UpgradeCostOriginal;
@@ -143,19 +151,49 @@ public class GameManager : MonoBehaviour
     //Give player gold based on damage
     public void AddGold(float DamageValue)
     {
-        if (UM.Upgrades[5].UpgradeTier > 0)
-        {
-            GoldGen.Produce(ref DamageValue, UM.Upgrades[5], Resources.Currency["Gold"]);
-        }
-        else
-        {
-            Resources.Currency["Gold"] += DamageValue;
-        }
+        GoldGen.Produce(ref DamageValue, UM.Upgrades[5], ref Resources); //Call upon gold gen to calc gold amount
     }
 
-    public void IncrementWave()
+    public void IncrementWave() //Go to the next wave
     {
         wave++;
         WaveText.text = "Wave: " + wave;
+    }
+
+    public void UpdateCurrencyText()
+    {
+        if (Resources.Currency["Gold"][3] > 0) //If gold is in the billions
+        {
+            GoldUI.text = "Gold: " + Resources.Currency["Gold"][3] + "." + Mathf.Floor(Resources.Currency["Gold"][2] / 100) + "B";
+        }
+        else if (Resources.Currency["Gold"][2] > 0 && Resources.Currency["Gold"][3] == 0) //If gold is in the millions
+        {
+            GoldUI.text = "Gold: " + Resources.Currency["Gold"][2] + "." + Mathf.Floor(Resources.Currency["Gold"][1] / 100) + "M";
+        }
+        else if (Resources.Currency["Gold"][1] > 0 && Resources.Currency["Gold"][2] == 0) //If gold is in the thousands
+        {
+            GoldUI.text = "Gold: " + Resources.Currency["Gold"][1] + "." + Mathf.Floor(Resources.Currency["Gold"][0] / 100) + "K";
+        }
+        else //If gold is in the 1s, 10s, or 100s
+        {
+            GoldUI.text = "Gold: " + Resources.Currency["Gold"][0];
+        }
+
+        if (Resources.Currency["Ruby"][3] > 0) //If rubies are in the billions (Somehow)
+        {
+            RubyUI.text = "Rubies: " + Resources.Currency["Ruby"][3] + "." + Mathf.Floor(Resources.Currency["Ruby"][2] / 100) + "B";
+        }
+        else if (Resources.Currency["Ruby"][2] > 0 && Resources.Currency["Ruby"][3] == 0) //If rubies are in the millions
+        {
+            RubyUI.text = "Rubies: " + Resources.Currency["Ruby"][2] + "." + Mathf.Floor(Resources.Currency["Ruby"][1] / 100) + "M";
+        }
+        else if (Resources.Currency["Ruby"][1] > 0 && Resources.Currency["Ruby"][2] == 0) //If rubies are in the thousands
+        {
+            RubyUI.text = "Rubies: " + Resources.Currency["Ruby"][1] + "." + Mathf.Floor(Resources.Currency["Ruby"][0] / 100) + "K";
+        }
+        else //If rubies are in the 1s, 10s, or hundreds
+        {
+            RubyUI.text = "Rubies: " + Resources.Currency["Ruby"][0];
+        }
     }
 }

@@ -66,7 +66,7 @@ public class Player : MonoBehaviour
         //Player damage dealt
         float damageValue = 1 + (UM.Upgrades[0].UpgradeTier);
         //Enemy Health Lost
-        enemy.CurrentHP -= damageValue;
+        enemy.TakeDamage(damageValue);
         //Gold recieved
         GM.AddGold(damageValue);
     }
@@ -77,7 +77,7 @@ public class Player : MonoBehaviour
         //Golem Damage dealt
         float damageValue = 3 * UM.Upgrades[4].UpgradeTier;
         //Enemy Health lost
-        enemy.CurrentHP -= damageValue;
+        enemy.TakeDamage(damageValue);
         //Gold recieved
         GM.AddGold(damageValue);
     }
@@ -88,7 +88,7 @@ public class Player : MonoBehaviour
         //Robot Damage Dealt
         float damageValue = (1 + UM.Upgrades[0].UpgradeTier) * UM.Upgrades[8].UpgradeTier;
         //Enemy Health Lost
-        enemy.CurrentHP -= damageValue;
+        enemy.TakeDamage(damageValue);
         //Gold Recieved
         GM.AddGold(damageValue);
     }

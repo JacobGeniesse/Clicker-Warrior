@@ -7,8 +7,8 @@ public class UpgradeState
 
     public int UpgradeTier;
 
-    public float UpgradeCostCurrent;
-    public float UpgradeCostOriginal;
+    public float[] UpgradeCostCurrent = new float[4];
+    public float[] UpgradeCostOriginal = new float[4];
 
     public enum PurchaseState
     {
@@ -19,12 +19,12 @@ public class UpgradeState
 
     public PurchaseState Availabilitiy;
 
-    public UpgradeState(string Name, int Tier, float Cost)
+    public UpgradeState(string Name, int Tier, float[] Cost, float[] CostCurrent)
     {
         UpgradeName = Name;
         UpgradeTier = Tier;
         UpgradeCostOriginal = Cost;
-        UpgradeCostCurrent = UpgradeCostOriginal;
+        UpgradeCostCurrent = CostCurrent;
         Availabilitiy = PurchaseState.Available;
     }
 }

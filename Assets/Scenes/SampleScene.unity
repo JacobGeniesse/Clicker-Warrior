@@ -1270,10 +1270,10 @@ MonoBehaviour:
   CostDisplay:
   - {fileID: 991998188}
   - {fileID: 1441247422}
-  - {fileID: 1895025488}
   - {fileID: 1552229721}
   - {fileID: 1684551543}
   - {fileID: 509014897}
+  - {fileID: 1895025488}
   - {fileID: 1871379447}
   - {fileID: 1030045005}
   - {fileID: 1979064536}
@@ -1282,10 +1282,10 @@ MonoBehaviour:
   UpgradeButtons:
   - {fileID: 210115027}
   - {fileID: 336136043}
-  - {fileID: 2092118486}
   - {fileID: 882138264}
   - {fileID: 1655369950}
   - {fileID: 1294618810}
+  - {fileID: 2092118486}
   - {fileID: 1365607346}
   - {fileID: 296289739}
   - {fileID: 1951767556}
@@ -2619,8 +2619,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b6f5eb2020659428d81b944bafde43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  CurrentHP: 0
-  MaxHP: 10
+  CurrentHP: []
+  MaxHP: []
 --- !u!114 &683049236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7433,6 +7433,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2051368245}
   - component: {fileID: 2051368244}
+  - component: {fileID: 2051368248}
+  - component: {fileID: 2051368247}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -7452,6 +7454,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90249013d7b08bf4a9ac36f26317d89b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  GoldGen: {fileID: 0}
+  RubyGen: {fileID: 0}
   TimerValue: 0
   MaxTimerValue: 30
   TimerPause: 0
@@ -7473,6 +7477,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2051368247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2051368243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f88960785c7315a488061988543eaabe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RubyGenerator
+--- !u!114 &2051368248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2051368243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdb7fdfe73be6024d86b2860e937e12b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GoldGenerator
 --- !u!1 &2060432944
 GameObject:
   m_ObjectHideFlags: 0
