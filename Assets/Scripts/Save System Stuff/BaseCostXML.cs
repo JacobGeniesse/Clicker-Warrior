@@ -58,7 +58,7 @@ public class BaseCostXML : MonoBehaviour
                     UM.Upgrades[i].UpgradeCostOriginal[j] = CashNeeded[i][j];
                     UM.Upgrades[i].UpgradeCostCurrent[j] = CashNeeded[i][j];
                     //Debug Message since save system makes this difficult to spot
-                    Debug.Log("XML File Loaded: " + UM.Upgrades[i].UpgradeCostOriginal[j] + "Into Current Cost and Original Cost");
+                    //Debug.Log("XML File Loaded: " + UM.Upgrades[i].UpgradeCostOriginal[j] + "Into Current Cost and Original Cost");
                 }
             }
         }

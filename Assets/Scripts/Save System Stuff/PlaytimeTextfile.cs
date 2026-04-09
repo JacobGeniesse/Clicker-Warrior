@@ -3,7 +3,7 @@ using System.IO;
 
 public class PlaytimeTextfile : MonoBehaviour
 {
-    private float[] Uptime = new float[4]; //Number blocks representing miliseconds, seconds, minutes, hours
+    private float[] Uptime = new float[3]; //Number blocks representing seconds, minutes, hours
     private string filePath; //Filepath to write to
     private void Start()
     {
@@ -20,7 +20,7 @@ public class PlaytimeTextfile : MonoBehaviour
     private void Update()
     {
         //Stuff for the playtime timer
-        Uptime[0] += 1;
+        Uptime[0] += 1 * Time.deltaTime;
         if (Uptime[0] > 60)
         {
             Uptime[0] -= 60;
@@ -31,11 +31,7 @@ public class PlaytimeTextfile : MonoBehaviour
             Uptime[1] -= 60;
             Uptime[2] += 1;
         }
-        if (Uptime[2] > 60)
-        {
-            Uptime[2] -= 60;
-            Uptime[3] += 1;
-        }
+
     }
 
     /*
@@ -48,8 +44,8 @@ public class PlaytimeTextfile : MonoBehaviour
         {
             using (StreamWriter sw = File.AppendText(filePath))
             {
-                //Writes playtime in this format: Hours:Minutes:Seconds:Miliseconds
-                sw.WriteLine("Playtime this session: " + Uptime[3].ToString() + ":" + Uptime[2].ToString() + ":" + Uptime[1].ToString() + ":" + Uptime[0].ToString());
+                //Writes playtime in this format: Hours:Minutes:Seconds
+                sw.WriteLine("Playtime this session: " + Mathf.Floor(Uptime[2]).ToString() + ":" + Mathf.Floor(Uptime[1]).ToString() + ":" + Mathf.Floor(Uptime[0]).ToString());
             }
         }
     }
