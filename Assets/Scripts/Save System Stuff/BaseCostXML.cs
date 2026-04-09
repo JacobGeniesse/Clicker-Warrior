@@ -1,51 +1,100 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 using System.Xml;
+using System.Xml.Serialization;
 using System.IO;
 
 public class BaseCostXML : MonoBehaviour
 {
-    private string filePath;
-    private UpgradeManager UM;
-    private int index;
+    public static BaseCostXML Instance;
+
+    private string filePath; //filepath to wrtie to
+    private UpgradeManager UM; //Upgrade manager reference
+    private List<float[]> BaseCosts = new List<float[]> //Base costs to write to a file if the file doesn't exist
+    {
+        new float[4] { 10, 0, 0, 0}, //SwordReforge
+        new float[4] { 15, 0, 0,0}, //Magic Stopwatch
+        new float[4] { 15, 0, 0, 0}, //Training Manual
+        new float[4] { 25, 0, 0, 0}, //Assasin's Lens
+        new float[4] { 35, 0, 0, 0}, //Crude golem
+        new float[4] { 40, 0, 0, 0}, //Gold charm
+
+        new float[4] { 1, 0, 0, 0}, //Gold
+        new float[4] { 3, 0, 0, 0}, //Ruby Amulet
+        new float[4] { 5, 0, 0, 0}, //Robo-Hero
+        new float[4] { 25, 0, 0, 0}, //NG+ Voucher
+        new float[4] { 999, 9, 0, 0 } //Commemorative Plushie
+    };
+
+    public List<float[]> CashNeeded = new List<float[]>(); //List to store the float arrays after reading the file
+
+
+    void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+    }
 
     // Run This Method Once
     void Start()
     {
-        filePath = Application.persistentDataPath + "/baseCost.xml";
-        UM = GameObject.Find("GameManager").GetComponent<GameManager>().UM;
+        filePath = Application.persistentDataPath + "/baseCost.xml"; //Assign filepath
+        UM = GameObject.Find("GameManager").GetComponent<GameManager>().UM; //Find upgrademanager
 
-        using(FileStream fs = File.Create(filePath)){
-            XmlWriter xmlwriter = XmlWriter.Create(fs);
+        //Run these functions
+        SerializeFiles(filePath); 
+        DeserializeFiles(filePath);
 
-            xmlwriter.WriteStartElement("BaseCost");
+        if(CashNeeded.Count == UM.Upgrades.Length) //Check if the files were loaded correctly
+        {
+            for(int i = 0; i < CashNeeded.Count; i++)
+            {
+                for(int j = 0; j < 4; j++)
+                {
+                    //Assign base cost and current cost based on what's pulled from the XML File
+                    UM.Upgrades[i].UpgradeCostOriginal[j] = CashNeeded[i][j];
+                    UM.Upgrades[i].UpgradeCostCurrent[j] = CashNeeded[i][j];
+                    //Debug Message since save system makes this difficult to spot
+                    Debug.Log("XML File Loaded: " + UM.Upgrades[i].UpgradeCostOriginal[j] + "Into Current Cost and Original Cost");
+                }
+            }
+        }
+    }
 
-            //SwordReforgeArray
-            xmlwriter.WriteElementString("SwordReforge", 10.ToString());
+    void SerializeFiles(string filePath)
+    {
+        var xmlserializer = new XmlSerializer(typeof(List<float[]>));
+        //If the file doesn't exist make one with the values stored in this file.
+        if (!File.Exists(filePath))
+        {
+            using (FileStream fs = File.Create(filePath))
+            {
+                xmlserializer.Serialize(fs, BaseCosts);
+            }
+        }
+    }
 
-            xmlwriter.WriteElementString("MagicStopwatch", 15.ToString());
-
-            xmlwriter.WriteElementString("TrainingManual", 15.ToString());
-
-            xmlwriter.WriteElementString("AssassinsLens", 25.ToString());
-
-            xmlwriter.WriteElementString("CrudeGolem", 35.ToString());
-
-            xmlwriter.WriteElementString("GoldCharm", 40.ToString());
-
-            xmlwriter.WriteElementString("Gold", 1.ToString());
-
-            xmlwriter.WriteElementString("RubyAmulet", 3.ToString());
-
-            xmlwriter.WriteElementString("RoboHero", 5.ToString());
-
-            xmlwriter.WriteElementString("NGVoucher", 25.ToString());
-
-            xmlwriter.WriteElementString("CommemorativePlushie", 9999.ToString());
-
-            xmlwriter.WriteEndElement();
-
-
-            xmlwriter.Close();
+    void DeserializeFiles(string filePath)
+    {
+        var xmlserializer = new XmlSerializer(typeof(List<float[]>));
+        //if the file with base cost values exists pull from it and add those values to the Lsit
+        if (File.Exists(filePath))
+        {
+            using (FileStream fs = File.OpenRead(filePath))
+            {
+                var Costs = (List<float[]>)xmlserializer.Deserialize(fs);
+                foreach (float[] Block in Costs)
+                {
+                    Instance.CashNeeded.Add(Block);
+                }
+            }
+        }
+        else
+        {
+            Debug.LogError("File Not Found!");
         }
     }
 }

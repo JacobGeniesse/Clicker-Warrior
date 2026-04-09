@@ -52,6 +52,20 @@ public class GameManager : MonoBehaviour
         WaveText = GameObject.Find("WaveText").GetComponent<TMP_Text>();
         WaveText.text = "Wave: " + wave;
         TimerValue = MaxTimerValue;
+
+        //After the places to assign are assigned grab the save data
+        SaveData SD = LoadSystem.LoadGameData();
+        if (SD != null)
+        {
+            UM.Upgrades = SD.UM;
+            Resources.Currency["Gold"] = SD.Gold;
+            Resources.Currency["Ruby"] = SD.Rubies;
+            TimerValue = SD.TimerValue;
+            enemy.CurrentHP = SD.CurrentHP;
+            enemy.UpdateHPText();
+            wave = SD.Wave;
+            UpdateWaveText();
+        }
     }
 
     void Update()
@@ -157,7 +171,7 @@ public class GameManager : MonoBehaviour
     public void IncrementWave() //Go to the next wave
     {
         wave++;
-        WaveText.text = "Wave: " + wave;
+        UpdateWaveText();
     }
 
     public void UpdateCurrencyText()
@@ -195,5 +209,15 @@ public class GameManager : MonoBehaviour
         {
             RubyUI.text = "Rubies: " + Resources.Currency["Ruby"][0];
         }
+    }
+
+    public void UpdateWaveText()
+    {
+        WaveText.text = "Wave: " + wave;
+    }
+
+    void OnApplicationQuit() //On quitting the game save the data
+    {
+        SaveSystem.SaveGame(this, enemy);
     }
 }
