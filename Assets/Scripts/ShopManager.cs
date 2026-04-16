@@ -62,13 +62,13 @@ public class ShopManager : MonoBehaviour
         //Check if the player has insufficent funds for anything, and disable the button if that is the case
         for (int i = 0; i < 6; i++)
         {
-            if (GoldCheck(i) == false || UM.Upgrades[i].Availabilitiy != UpgradeState.PurchaseState.Available)
+            if (GoldCheck(i) == true && UM.Upgrades[i].Availabilitiy == UpgradeState.PurchaseState.Available)
             {
-                UpgradeButtons[i].interactable = false;
+                UpgradeButtons[i].interactable = true;
             }
             else
             {
-                UpgradeButtons[i].interactable = true;
+                UpgradeButtons[i].interactable = false;
             }
         }
 
@@ -257,69 +257,82 @@ public class ShopManager : MonoBehaviour
 
     private bool GoldCheck(int UpgradeType) //Check if the player has the appropriate ruby amount
     {
-        for(int i = 0; i < GM.Resources.Currency["Gold"].Length; i++)
+        for(int i = (GM.Resources.Currency["Gold"].Length - 1); i > 0; i--)
         {
             if (GM.Resources.Currency["Gold"][i] < UM.Upgrades[UpgradeType].UpgradeCostCurrent[i]) //Check if the player has less than what they need
             {
                 return false;
             }
+            if (GM.Resources.Currency["Gold"][i] > UM.Upgrades[UpgradeType].UpgradeCostCurrent[i]) //Check if the player has less than what they need
+            {
+                return true;
+            }
         }
-        return true;
+        return false;
     }
 
     private bool RubyCheck(int UpgradeType) //Check if the player has the appropriate ruby count
     {
-        for (int i = 0; i < GM.Resources.Currency["Ruby"].Length; i++)
+        for (int i = (GM.Resources.Currency["Ruby"].Length - 1); i > 0; i--)
         {
             if (GM.Resources.Currency["Ruby"][i] < UM.Upgrades[UpgradeType].UpgradeCostCurrent[i]) //Check if the player has less than what they need
             {
                 return false;
             }
+            else if(GM.Resources.Currency["Ruby"][i] > UM.Upgrades[UpgradeType].UpgradeCostCurrent[i])
+            {
+                return true;
+            }
         }
-        return true;
+        return false;
     }
 
     private void UpdateText(bool UsesGold, int UpgradeType, ref ResourceManager CurrencyRef) //Update  the text showing the upgrade cost
     {
-        if (UsesGold == true) //For gold
+        if(UM.Upgrades[UpgradeType].Availabilitiy == UpgradeState.PurchaseState.Purchased)
         {
-            if (UM.Upgrades[UpgradeType].UpgradeCostCurrent[3] > 0)
+            CostDisplay[UpgradeType].text = "Cost: SOLD OUT";
+        }
+        else
+        {
+            if (UsesGold == true) //For gold
             {
-                CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[3] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[2] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[1] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0] + " Gold";
+                if (UM.Upgrades[UpgradeType].UpgradeCostCurrent[3] > 0)
+                {
+                    CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[3] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[2] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[1] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0] + " Gold";
+                }
+                else if (UM.Upgrades[UpgradeType].UpgradeCostCurrent[2] > 0 && UM.Upgrades[UpgradeType].UpgradeCostCurrent[3] == 0)
+                {
+                    CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[2] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[1] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0] + " Gold";
+                }
+                else if (UM.Upgrades[UpgradeType].UpgradeCostCurrent[1] > 0 && UM.Upgrades[UpgradeType].UpgradeCostCurrent[2] == 0)
+                {
+                    CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[1] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0] + " Gold";
+                }
+                else
+                {
+                    CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0] + " Gold";
+                }
             }
-            else if (UM.Upgrades[UpgradeType].UpgradeCostCurrent[2] > 0 && UM.Upgrades[UpgradeType].UpgradeCostCurrent[3] == 0)
+            else //For rubies
             {
-                CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[2] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[1] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0] + " Gold";
-            }
-            else if (UM.Upgrades[UpgradeType].UpgradeCostCurrent[1] > 0 && UM.Upgrades[UpgradeType].UpgradeCostCurrent[2] == 0)
-            {
-                CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[1] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0] + " Gold";
-            }
-            else
-            {
-                CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0] + " Gold";
+                if (UM.Upgrades[UpgradeType].UpgradeCostCurrent[3] > 0)
+                {
+                    CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[3] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[2] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[1] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0] + " Rubies";
+                }
+                else if (UM.Upgrades[UpgradeType].UpgradeCostCurrent[2] > 0 && UM.Upgrades[UpgradeType].UpgradeCostCurrent[3] == 0)
+                {
+                    CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[2] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[1] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0] + " Rubies";
+                }
+                else if (UM.Upgrades[UpgradeType].UpgradeCostCurrent[1] > 0 && UM.Upgrades[UpgradeType].UpgradeCostCurrent[2] == 0)
+                {
+                    CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[1] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0] + " Rubies";
+                }
+                else
+                {
+                    CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0] + " Rubies";
+                }
             }
         }
-        else //For rubies
-        {
-            if (UM.Upgrades[UpgradeType].UpgradeCostCurrent[3] > 0)
-            {
-                CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[3] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[2] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[1] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0] + " Rubies";
-            }
-            else if (UM.Upgrades[UpgradeType].UpgradeCostCurrent[2] > 0 && UM.Upgrades[UpgradeType].UpgradeCostCurrent[3] == 0)
-            {
-                CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[2] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[1] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0] + " Rubies";
-            }
-            else if (UM.Upgrades[UpgradeType].UpgradeCostCurrent[1] > 0 && UM.Upgrades[UpgradeType].UpgradeCostCurrent[2] == 0)
-            {
-                CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[1] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0] + " Rubies";
-            }
-            else
-            {
-                CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0] + " Rubies";
-            }
-        }
-
     }
-
 }

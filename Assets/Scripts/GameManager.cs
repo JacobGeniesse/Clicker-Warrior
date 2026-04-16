@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +16,11 @@ public class GameManager : MonoBehaviour
     public float TimerValue;
     public float MaxTimerValue;
     public bool TimerPause = false;
+     
+
+    public delegate void Reset();
+    public Reset TimesUpReset;
+    public event Reset TimeUpActions;
 
     //Wave Variable
     public int wave = 1;
@@ -43,6 +49,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         //Define enemy, GoldGen, RubyGen, Gold text, Ruby text, and set the time value to its maximum
+        TimerValue = MaxTimerValue;
         enemy = GameObject.Find("Enemy").GetComponent<EnemyHealth>();
         GoldGen = this.GetComponent<GoldGenerator>();
         RubyGen = this.GetComponent<RubyGenerator>();
@@ -51,7 +58,9 @@ public class GameManager : MonoBehaviour
         TimerText = GameObject.Find("TimerText").GetComponent<TMP_Text>();
         WaveText = GameObject.Find("WaveText").GetComponent<TMP_Text>();
         WaveText.text = "Wave: " + wave;
-        TimerValue = MaxTimerValue;
+
+        this.TimeUpActions += ResetMoney;
+        this.TimeUpActions += ResetUpgrades;
 
         //After the places to assign are assigned grab the save data
         SaveData SD = LoadSystem.LoadGameData();
@@ -65,6 +74,11 @@ public class GameManager : MonoBehaviour
             enemy.UpdateHPText();
             wave = SD.Wave;
             UpdateWaveText();
+
+            if (UM.Upgrades[10].UpgradeTier > 0)
+            {
+                PlushieStatus(true);
+            }
         }
     }
 
@@ -82,8 +96,11 @@ public class GameManager : MonoBehaviour
         else if (TimerValue <= 0 && TimerPause == false)
         {
             TimerPause = true;
+
             //Kill the player if time is up
             TimeUp();
+
+
         }
     }
 
@@ -110,15 +127,25 @@ public class GameManager : MonoBehaviour
     }
 
     //Death at end of timer
-    private void TimeUp()
+    public void TimeUp()
     {
         //Check if the player has a voucher
         if (UM.Upgrades[9].UpgradeTier < 1)
         {
             //If no voucher take away everything from them
-            ResetMoney();
-            ResetUpgrades();
-            PlushieStatus(false);
+            try
+            {
+                this.TimeUpActions?.Invoke();
+                if(TimeUpActions == null)
+                {
+                    throw new ArgumentException("No way to reset values!");
+                }
+            }
+            catch (ArgumentException argumentException)
+            {
+                Debug.LogWarning(argumentException.ToString());
+            }
+
         }
         //Take away the voucher regardless in case player used one
         UM.Upgrades[9].UpgradeTier = 0;
@@ -158,8 +185,10 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < UM.Upgrades.Length; i++)
         {
             UM.Upgrades[i].UpgradeTier = 0;
+            UM.Upgrades[i].Availabilitiy = UpgradeState.PurchaseState.Available;
             UM.Upgrades[i].UpgradeCostCurrent = UM.Upgrades[i].UpgradeCostOriginal;
         }
+        PlushieStatus(false);
     }
 
     //Give player gold based on damage

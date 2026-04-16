@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,17 +10,25 @@ public static class LoadSystem
     {
         string filePath = Application.persistentDataPath + "/SaveData.txt"; //File path
 
-        if (File.Exists(filePath))
+        try
         {
-            using (StreamReader SR = new StreamReader(filePath))
+            if (File.Exists(filePath))
             {
-                string jsonString = SR.ReadToEnd(); //Grab the json string from the file
-                SaveData CurrentSave = JsonUtility.FromJson<SaveData>(jsonString); //Convert from the json format back to SaveData's format
-                return CurrentSave; //Return that save data
+                using (StreamReader SR = new StreamReader(filePath))
+                {
+                    string jsonString = SR.ReadToEnd(); //Grab the json string from the file
+                    SaveData CurrentSave = JsonUtility.FromJson<SaveData>(jsonString); //Convert from the json format back to SaveData's format
+                    return CurrentSave; //Return that save data
+                }
+            }
+            else
+            {
+                throw new ArgumentException("No save file found!");
             }
         }
-        else
+        catch (ArgumentException argumentException)
         {
+            Debug.LogWarning(argumentException.ToString());
             return null; //If there's no data to load return nothing
         }
     }
