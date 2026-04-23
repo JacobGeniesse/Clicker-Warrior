@@ -28,6 +28,9 @@ public class GameManager : MonoBehaviour
     //Reference to EnemyHealthScript
     private EnemyHealth enemy;
 
+    //Reference to WeakspotScript
+    private WeakSpot WS;
+
     //Reference to Shop Manager (Public due to starting the game inactive)
     public ShopManager SM;
 
@@ -53,6 +56,7 @@ public class GameManager : MonoBehaviour
         enemy = GameObject.Find("Enemy").GetComponent<EnemyHealth>();
         GoldGen = this.GetComponent<GoldGenerator>();
         RubyGen = this.GetComponent<RubyGenerator>();
+        WS = GameObject.Find("Enemy").GetComponent<WeakSpot>();
         GoldUI = GameObject.Find("Gold Amount").GetComponent<TMP_Text>();
         RubyUI = GameObject.Find("Ruby Amount").GetComponent<TMP_Text>();
         TimerText = GameObject.Find("TimerText").GetComponent<TMP_Text>();
@@ -74,7 +78,7 @@ public class GameManager : MonoBehaviour
             enemy.UpdateHPText();
             wave = SD.Wave;
             UpdateWaveText();
-
+            UpdateCurrencyText();
             if (UM.Upgrades[10].UpgradeTier > 0)
             {
                 PlushieStatus(true);
@@ -99,8 +103,6 @@ public class GameManager : MonoBehaviour
 
             //Kill the player if time is up
             TimeUp();
-
-
         }
     }
 
@@ -158,6 +160,7 @@ public class GameManager : MonoBehaviour
         WaveText.text = "Wave: " + wave;
         //Reset the enemy
         enemy.ResetHP();
+        WS.ResetWeakSpot();
         TimerValue = MaxTimerValue;
         TimerText.text = "Attacking In: " + Mathf.Ceil(TimerValue);
         TimerPause = false;
@@ -186,7 +189,10 @@ public class GameManager : MonoBehaviour
         {
             UM.Upgrades[i].UpgradeTier = 0;
             UM.Upgrades[i].Availabilitiy = UpgradeState.PurchaseState.Available;
-            UM.Upgrades[i].UpgradeCostCurrent = UM.Upgrades[i].UpgradeCostOriginal;
+            for(int j = 0; j < UM.Upgrades[i].UpgradeCostCurrent.Length; j++)
+            {
+                UM.Upgrades[i].UpgradeCostCurrent[j] = UM.Upgrades[i].OriginalCost[j];
+            }
         }
         PlushieStatus(false);
     }

@@ -55,6 +55,13 @@ public class WeakSpot : MonoBehaviour
         }
     }
 
+    public void ResetWeakSpot() //For use when player dies
+    {
+        Destroy(activeWeakSpot);
+        WeakSpotTimer = 2.5f;
+        ActiveWeakSpot = false;
+    }
+
     public void CriticalHit()
     {
         //Destroy the prefab

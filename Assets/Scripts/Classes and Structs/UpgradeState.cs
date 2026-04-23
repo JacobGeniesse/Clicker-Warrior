@@ -6,10 +6,9 @@ public class UpgradeState
 {
     public string UpgradeName;
 
+    public float[] OriginalCost;
     public int UpgradeTier;
-
-    public float[] UpgradeCostCurrent = new float[4];
-    public float[] UpgradeCostOriginal = new float[4];
+    public float[] UpgradeCostCurrent;
 
     public enum PurchaseState
     {
@@ -24,7 +23,7 @@ public class UpgradeState
     {
         UpgradeName = Name;
         UpgradeTier = Tier;
-        UpgradeCostOriginal = Cost;
+        OriginalCost = Cost;
         UpgradeCostCurrent = CostCurrent;
         Availabilitiy = PurchaseState.Available;
     }

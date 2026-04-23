@@ -79,19 +79,40 @@ namespace NumberControlExtension //Namespace for sorting numbers
             }
         }
 
-        public static void BlockMultiplication(this float[] BlockE, float[] BlockF) //Multiplying two blocks together
+        public static void BlockMultiplication(this float[] BlockE, int Multiplier) //Multiplying two blocks together
         {
-            if (BlockE.Length == BlockF.Length)
+            for (int i = 0; i < BlockE.Length; i++)
             {
-                for (int i = 0; i < BlockE.Length; i++)
+                BlockE[i] *= (float) Multiplier;
+            }
+            BlockE.ManageNumbers();
+        }
+
+        public static int BlockGreater(this float[] BlockF, float[] BlockG) //Check which block is greater than another block
+        {
+            if (BlockF.Length == BlockG.Length)
+            {
+                for(int i = BlockF.Length - 1; i > -1; i--)
                 {
-                    BlockE[i] *= BlockF[i];
+                    if (BlockF[i] > BlockG[i]) //Is blockA greater than block b
+                    {
+                        return 1;
+                    }
+                    else if (BlockF[i] < BlockG[i]) //Is blockb bigger than block a
+                    {
+                        return -1;
+                    }
                 }
-                BlockE.ManageNumbers();
+                if(BlockF[0] == BlockG[0])
+                {
+                    return 0;
+                }
+                return -2;
             }
             else
             {
-                Debug.LogWarning("Blocks are not the same size! Cannot Compute!");
+                Debug.LogWarning("Blocks are not the same size! Cannot Compare!");
+                return -2;
             }
         }
     }

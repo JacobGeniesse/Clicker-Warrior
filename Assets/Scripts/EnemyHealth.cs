@@ -37,8 +37,7 @@ public class EnemyHealth : MonoBehaviour
         //If wave = 1, just max hp
         if (GM.wave <= 1)
         {
-            CurrentHP = MaxHP;
-            UpdateHPText();
+            ResetHP();
         }
         //If up to wave 10000, Add a random value multiplied by the current wave
         else if (GM.wave >= 2 && GM.wave <= 1000)
@@ -88,7 +87,10 @@ public class EnemyHealth : MonoBehaviour
     //Reset enemy health back to its intial value when called by Game manager.
     public void ResetHP()
     {
-        CurrentHP = MaxHP;
+        for(int i = 0; i < CurrentHP.Length; i++)
+        {
+            CurrentHP[i] = MaxHP[i];
+        }
         UpdateHPText();
     }
 

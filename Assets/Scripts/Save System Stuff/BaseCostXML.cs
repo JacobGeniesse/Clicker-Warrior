@@ -55,7 +55,7 @@ public class BaseCostXML : MonoBehaviour
                 for(int j = 0; j < 4; j++)
                 {
                     //Assign base cost and current cost based on what's pulled from the XML File
-                    UM.Upgrades[i].UpgradeCostOriginal[j] = CashNeeded[i][j];
+                    UM.Upgrades[i].OriginalCost[j] = CashNeeded[i][j];
                     UM.Upgrades[i].UpgradeCostCurrent[j] = CashNeeded[i][j];
                     //Debug Message since save system makes this difficult to spot
                     //Debug.Log("XML File Loaded: " + UM.Upgrades[i].UpgradeCostOriginal[j] + "Into Current Cost and Original Cost");

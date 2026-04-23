@@ -19,9 +19,9 @@ public class Shortcuts : MonoBehaviour
         //Deal Damage
         if (Input.GetKeyDown(KeyCode.Slash))
         {
-            enemy.TakeDamage(999f);
+            enemy.TakeDamage(999);
 
-            GM.AddGold(999f);
+            GM.AddGold(999);
         }
 
         //Give Rubies

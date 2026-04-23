@@ -58,6 +58,11 @@ public class Player : MonoBehaviour
             EnemyDamage();
             CTTimer = 0.15f;
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            CloseGame();
+        }
     }
 
     //Calculate player damage
@@ -91,5 +96,10 @@ public class Player : MonoBehaviour
         enemy.TakeDamage(damageValue);
         //Gold Recieved
         GM.AddGold(damageValue);
+    }
+
+    private void CloseGame()
+    {
+        Application.Quit();
     }
 }
