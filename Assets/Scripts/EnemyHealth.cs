@@ -43,7 +43,7 @@ public class EnemyHealth : MonoBehaviour
         else if (GM.wave >= 2 && GM.wave <= 1000)
         {
             CurrentHP[0] = MaxHP[0];
-            CurrentHP[0] += Mathf.Floor(Random.Range(5f, 10f) * (float)(GM.wave + 1));
+            CurrentHP[0] += Mathf.Floor(7f * (float)(GM.wave + 1));
             CurrentHP.ManageNumbers();
             UpdateHPText();
         }
@@ -98,15 +98,15 @@ public class EnemyHealth : MonoBehaviour
     {
         if (CurrentHP[3] > 0) //If health is in the billions
         {
-            HitPointsUI.text = "HP: " + CurrentHP[3] + "." + Mathf.Floor(CurrentHP[2] / 100) + "B";
+            HitPointsUI.text = "HP: " + CurrentHP[3] + "," + Mathf.Floor(CurrentHP[2]).ToString("000") + "," + Mathf.Floor(CurrentHP[1]).ToString("000") + "," + Mathf.Floor(CurrentHP[0]).ToString("000");
         }
         else if (CurrentHP[2] > 0 && CurrentHP[3] == 0) //If health is in the millions
         {
-            HitPointsUI.text = "HP: " + CurrentHP[2] + "." + Mathf.Floor(CurrentHP[1] / 100) + "M";
+            HitPointsUI.text = "HP: " + CurrentHP[2] + "," + Mathf.Floor(CurrentHP[1]).ToString("000") + "," + Mathf.Floor(CurrentHP[0]).ToString("000");
         }
         else if (CurrentHP[1] > 0 && CurrentHP[2] == 0) //If health is in the thousands
         {
-            HitPointsUI.text = "HP: " + CurrentHP[1] + "." + Mathf.Floor(CurrentHP[0] / 100) + "K";
+            HitPointsUI.text = "HP: " + CurrentHP[1] + "," + Mathf.Floor(CurrentHP[0]).ToString("000");
         }
         else //If health is in the 1s, 10s, or 100s
         {

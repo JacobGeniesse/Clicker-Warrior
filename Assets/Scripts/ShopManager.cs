@@ -292,15 +292,15 @@ public class ShopManager : MonoBehaviour
             {
                 if (UM.Upgrades[UpgradeType].UpgradeCostCurrent[3] > 0)
                 {
-                    CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[3] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[2] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[1] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0] + " Gold";
+                    CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[3] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[2].ToString("000") + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[1].ToString("000") + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0].ToString("000") + " Gold";
                 }
                 else if (UM.Upgrades[UpgradeType].UpgradeCostCurrent[2] > 0 && UM.Upgrades[UpgradeType].UpgradeCostCurrent[3] == 0)
                 {
-                    CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[2] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[1] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0] + " Gold";
+                    CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[2] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[1].ToString("000") + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0].ToString("000") + " Gold";
                 }
                 else if (UM.Upgrades[UpgradeType].UpgradeCostCurrent[1] > 0 && UM.Upgrades[UpgradeType].UpgradeCostCurrent[2] == 0)
                 {
-                    CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[1] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0] + " Gold";
+                    CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[1] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0].ToString("000") + " Gold";
                 }
                 else
                 {
@@ -311,15 +311,15 @@ public class ShopManager : MonoBehaviour
             {
                 if (UM.Upgrades[UpgradeType].UpgradeCostCurrent[3] > 0)
                 {
-                    CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[3] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[2] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[1] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0] + " Rubies";
+                    CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[3] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[2].ToString("000") + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[1].ToString("000") + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0].ToString("000") + " Rubies";
                 }
                 else if (UM.Upgrades[UpgradeType].UpgradeCostCurrent[2] > 0 && UM.Upgrades[UpgradeType].UpgradeCostCurrent[3] == 0)
                 {
-                    CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[2] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[1] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0] + " Rubies";
+                    CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[2] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[1].ToString("000") + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0].ToString("000") + " Rubies";
                 }
                 else if (UM.Upgrades[UpgradeType].UpgradeCostCurrent[1] > 0 && UM.Upgrades[UpgradeType].UpgradeCostCurrent[2] == 0)
                 {
-                    CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[1] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0] + " Rubies";
+                    CostDisplay[UpgradeType].text = "Cost: " + UM.Upgrades[UpgradeType].UpgradeCostCurrent[1] + "," + UM.Upgrades[UpgradeType].UpgradeCostCurrent[0].ToString("000") + " Rubies";
                 }
                 else
                 {

@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
         //Timer Stuff
         if (TimerValue > 0 && TimerPause != true)
         {
-            TimerValue -= Time.deltaTime;
+            TimerValue -= Time.deltaTime * Mathf.Floor((1 + wave * 0.02f));
             TimerText.text = "Attacking In: " + Mathf.Ceil(TimerValue);
         }
         else if (TimerValue <= 0 && TimerPause == false)
@@ -213,15 +213,15 @@ public class GameManager : MonoBehaviour
     {
         if (Resources.Currency["Gold"][3] > 0) //If gold is in the billions
         {
-            GoldUI.text = "Gold: " + Resources.Currency["Gold"][3] + "." + Mathf.Floor(Resources.Currency["Gold"][2] / 100) + "B";
+            GoldUI.text = "Gold: " + Resources.Currency["Gold"][3] + "," + Resources.Currency["Gold"][2].ToString("000") + "," + Resources.Currency["Gold"][1].ToString("000") + "," + Resources.Currency["Gold"][0].ToString("000");
         }
         else if (Resources.Currency["Gold"][2] > 0 && Resources.Currency["Gold"][3] == 0) //If gold is in the millions
         {
-            GoldUI.text = "Gold: " + Resources.Currency["Gold"][2] + "." + Mathf.Floor(Resources.Currency["Gold"][1] / 100) + "M";
+            GoldUI.text = "Gold: " + Resources.Currency["Gold"][2] + "," + Resources.Currency["Gold"][1].ToString("000") + "," + Resources.Currency["Gold"][0].ToString("000");
         }
         else if (Resources.Currency["Gold"][1] > 0 && Resources.Currency["Gold"][2] == 0) //If gold is in the thousands
         {
-            GoldUI.text = "Gold: " + Resources.Currency["Gold"][1] + "." + Mathf.Floor(Resources.Currency["Gold"][0] / 100) + "K";
+            GoldUI.text = "Gold: " + Resources.Currency["Gold"][1] + "," + Resources.Currency["Gold"][0].ToString("000");
         }
         else //If gold is in the 1s, 10s, or 100s
         {
@@ -230,15 +230,15 @@ public class GameManager : MonoBehaviour
 
         if (Resources.Currency["Ruby"][3] > 0) //If rubies are in the billions (Somehow)
         {
-            RubyUI.text = "Rubies: " + Resources.Currency["Ruby"][3] + "." + Mathf.Floor(Resources.Currency["Ruby"][2] / 100) + "B";
+            RubyUI.text = "Rubies: " + Resources.Currency["Ruby"][3] + "," + Resources.Currency["Ruby"][2].ToString("000") + "," + Resources.Currency["Ruby"][1].ToString("000") + "," + Resources.Currency["Ruby"][0].ToString("000");
         }
         else if (Resources.Currency["Ruby"][2] > 0 && Resources.Currency["Ruby"][3] == 0) //If rubies are in the millions
         {
-            RubyUI.text = "Rubies: " + Resources.Currency["Ruby"][2] + "." + Mathf.Floor(Resources.Currency["Ruby"][1] / 100) + "M";
+            RubyUI.text = "Rubies: " + Resources.Currency["Ruby"][2] + "," + Resources.Currency["Ruby"][1].ToString("000") + "," + Resources.Currency["Ruby"][0].ToString("000");
         }
         else if (Resources.Currency["Ruby"][1] > 0 && Resources.Currency["Ruby"][2] == 0) //If rubies are in the thousands
         {
-            RubyUI.text = "Rubies: " + Resources.Currency["Ruby"][1] + "." + Mathf.Floor(Resources.Currency["Ruby"][0] / 100) + "K";
+            RubyUI.text = "Rubies: " + Resources.Currency["Ruby"][1] + "," + Resources.Currency["Ruby"][0].ToString("000");
         }
         else //If rubies are in the 1s, 10s, or hundreds
         {
